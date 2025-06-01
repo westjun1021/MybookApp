@@ -129,37 +129,34 @@ public class BookAdapter extends ListAdapter<Book, BookAdapter.VH> {
 
         String isbn = (book.getIsbn() != null) ? book.getIsbn() : "";
         boolean isBookmarked = bookmarkedIsbns.contains(isbn);
-        if (isBookmarked) {
-            holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_filled);
-        } else {
-            holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_border);
-        }
-        holder.btnBookmark.setOnClickListener(v -> bookmarkListener.onBookmarkClick(book));
 
-        // (2) Firestore에서 평균 별점·평가자 수 가져와서 요약 표시
-        FirebaseFirestore.getInstance()
-                .collection("books")
-                .document(isbn)
-                .get()
-                .addOnSuccessListener(document -> {
-                    if (document.exists()) {
-                        Double ratingSum = document.getDouble("ratingSum");
-                        Long ratingCount = document.getLong("ratingCount");
-                        if (ratingSum != null && ratingCount != null && ratingCount > 0) {
-                            float avg = (float) (ratingSum / ratingCount);
-                            holder.tvRatingCommentSummary.setText(
-                                    String.format("평균: %.1f   (%d명)", avg, ratingCount)
-                            );
+        if (!isbn.isEmpty()) {
+            FirebaseFirestore.getInstance()
+                    .collection("books")
+                    .document(isbn)
+                    .get()
+                    .addOnSuccessListener(document -> {
+                        if (document.exists()) {
+                            Double ratingSum = document.getDouble("ratingSum");
+                            Long ratingCount = document.getLong("ratingCount");
+                            if (ratingSum != null && ratingCount != null && ratingCount > 0) {
+                                float avg = (float) (ratingSum / ratingCount);
+                                holder.tvRatingCommentSummary.setText(
+                                        String.format("평균: %.1f   (%d명)", avg, ratingCount)
+                                );
+                            } else {
+                                holder.tvRatingCommentSummary.setText("평균: -   (0명)");
+                            }
                         } else {
                             holder.tvRatingCommentSummary.setText("평균: -   (0명)");
                         }
-                    } else {
+                    })
+                    .addOnFailureListener(e -> {
                         holder.tvRatingCommentSummary.setText("평균: -   (0명)");
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    holder.tvRatingCommentSummary.setText("평균: -   (0명)");
-                });
+                    });
+            } else {
+                holder.tvRatingCommentSummary.setText("평균: -   (0명)");
+            }
 
         // (3) 평가하기 버튼 클릭 리스너
         holder.btnRate.setOnClickListener(v -> rateListener.onRateClick(book));
