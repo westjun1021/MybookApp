@@ -1,26 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bookshelf_beige"
+    tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etKeyword"
-        android:hint="책 제목 입력"
+    <!-- ── 메인 콘텐츠 영역: 흰 카드(순수 흰 바탕)에 elevation 4dp, margin 8dp ── -->
+    <LinearLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="8dp"
+        android:background="@color/pure_white"
+        android:elevation="4dp">
 
-    <Button
-        android:id="@+id/btnSearch"
-        android:text="검색"
+<!-- 툴바: 테마에서 자동으로 colorPrimary(노란색) 적용 -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/soft_yellow_dark"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:elevation="4dp"
+            android:title="@string/app_name" />
+
+<!-- 본문 콘텐츠 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+    <!-- (1) 검색창: 둥근 모서리 배경, 진회색 텍스트 -->
+            <EditText
+                android:id="@+id/etKeyword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="책 제목을 입력하세요"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"
+                android:textColor="@color/text_dark_gray"
+                android:textSize="14sp" />
+
+    <!-- (2) 버튼 영역: MaterialComponents 테마에 정의한 노란 버튼 스타일 자동 적용 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSearch"
+                style="@style/Widget.MyBookshelf.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="검색" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHome"
+                style="@style/Widget.MyBookshelf.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="홈" />
+
+    </LinearLayout>
+
+    <!-- (3) 헤더 텍스트 -->
+    <TextView
+        android:id="@+id/tvHeader"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="나의 책장"
+        android:textColor="@color/text_dark_gray"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
+    <!-- (4) RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBooks"
+        android:id="@+id/rvContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_marginTop="8dp"
+        android:layout_weight="1" />
+
 </LinearLayout>
+</LinearLayout>
+
+    <!-- 네비게이션 드로어 (흰 배경, 헤더+메뉴) -->
+<com.google.android.material.navigation.NavigationView
+    android:id="@+id/navigation_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@android:color/white"
+    app:headerLayout="@layout/nav_header"
+    app:menu="@menu/drawer_menu" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>

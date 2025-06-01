@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/dialog_rating_comment.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 1) 별점 표시 / 선택용 RatingBar -->
+    <RatingBar
+        android:id="@+id/dialogRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:layout_gravity="center_horizontal" />
+
+    <!-- 2) 간단한 설명 텍스트(선택사항) -->
+    <TextView
+        android:id="@+id/dialogRatingHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="별점을 선택하세요 (최대 5.0)"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="8dp" />
+
+    <!-- 3) 댓글 입력용 EditText -->
+    <EditText
+        android:id="@+id/dialogEtComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="코멘트를 입력하세요"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:gravity="top"
+        android:layout_marginTop="12dp"
+        android:background="@android:drawable/edit_text"
+        android:padding="8dp" />
+
+</LinearLayout>

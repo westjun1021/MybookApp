@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/dialog_comments.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 1) RecyclerView를 배치하여 댓글 목록을 표시 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="always"
+        android:scrollbars="vertical" />
+
+    <!-- 2) 댓글이 없을 때 보여줄 안내문 (optional) -->
+    <TextView
+        android:id="@+id/tvNoComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="등록된 댓글이 없습니다."
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="center"
+        android:visibility="gone"
+        android:paddingTop="16dp" />
+</LinearLayout>

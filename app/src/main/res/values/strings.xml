@@ -1,3 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Application</string>
+    <!-- 기존에 있던 문자열 리소스들 예: -->
+    <string name="app_name">MyBook</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="book_cover_desc">책 표지 이미지</string>
+    <string name="bookmark_btn_desc">북마크 버튼</string>
+    <string name="navigation_drawer_open">메뉴 열기</string>
+    <string name="navigation_drawer_close">메뉴 닫기</string>
+    <string name="hint_new_nickname">새 닉네임을 입력하세요</string>
+    <string name="hint_current_password">현재 비밀번호 입력</string>
+    <string name="hint_new_password">새 비밀번호 입력 (최소 6자)</string>
 </resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- app/src/main/res/layout/item_comment.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@android:color/white">
+
+    <!-- 1) 댓글 작성자의 닉네임 -->
+    <TextView
+        android:id="@+id/tvCommentUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용자 닉네임"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <!-- 2) 별점 -->
+    <TextView
+        android:id="@+id/tvCommentRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="별점: 4.5"
+        android:textSize="12sp"
+        android:textColor="@android:color/holo_orange_dark"
+        android:layout_marginTop="2dp" />
+
+    <!-- 3) 코멘트 본문 -->
+    <TextView
+        android:id="@+id/tvCommentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="코멘트 내용이 여기에 표시됩니다."
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="4dp" />
+</LinearLayout>

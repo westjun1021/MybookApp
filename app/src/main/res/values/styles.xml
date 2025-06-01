@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 1) 기존 AppCompat 테마 대신 MaterialComponents 테마를 부모로 사용 -->
+    <style name="Theme.MyBookshelf" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- (A) 툴바·상태바의 기본 색상을 책장 테마 색으로 지정 -->
+        <item name="colorPrimary">@color/bookshelf_yellow</item>
+        <item name="colorPrimaryVariant">@color/bookshelf_yellow</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- (B) 스테이터스 바 글자색 등을 자동 조절 -->
+        <item name="android:statusBarColor">@color/bookshelf_yellow</item>
+        <item name="android:navigationBarColor">@color/bookshelf_yellow</item>
+
+        <!-- (C) 앱 전체 배경 기본색을 책장 베이지로 지정 -->
+        <item name="android:windowBackground">@color/bookshelf_beige</item>
+
+        <!-- (D) MaterialComponents 버튼 기본 스타일을 노란 배경＋흰 글씨로 오버라이드 -->
+        <item name="materialButtonStyle">@style/Widget.MyBookshelf.Button</item>
+    </style>
+
+    <!-- 2) MaterialComponents 버튼 커스텀 스타일 정의 -->
+    <style name="Widget.MyBookshelf.Button" parent="Widget.MaterialComponents.Button">
+        <!-- 버튼 배경색(채우기) -->
+        <item name="android:backgroundTint">@color/bookshelf_yellow</item>
+        <!-- 버튼 텍스트 색 -->
+        <item name="android:textColor">@android:color/white</item>
+        <!-- 모서리 둥글게 (cornerRadius 속성을 MaterialComponents 테마가 제공) -->
+        <item name="cornerRadius">4dp</item>
+        <!-- 버튼 높이, 패딩 등 필요시 추가 커스터마이징 -->
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:paddingHorizontal">16dp</item>
+    </style>
+
+</resources>

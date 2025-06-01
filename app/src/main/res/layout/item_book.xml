@@ -1,25 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- app/src/main/res/layout/item_book.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:background="@android:color/white">
 
-    <TextView
-        android:id="@+id/tvTitle"
+    <!-- ─── 첫 번째 줄: 기존 책 표지/텍스트/북마크/댓글 보기 ─────────────────────────── -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:orientation="horizontal"
+        android:paddingBottom="4dp">
 
-    <TextView
-        android:id="@+id/tvAuthor"
+        <!-- 1) 책 표지 ImageView -->
+        <ImageView
+            android:id="@+id/book_cover"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="책 표지" />
+
+        <!-- 2) 텍스트 영역: 제목 + “저자 | 연도” 한 줄 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- (2-1) 책 제목 -->
+            <TextView
+                android:id="@+id/book_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="책 제목"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- (2-2) 저자 + 출판연도 -->
+            <TextView
+                android:id="@+id/book_author_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="저자 | 연도"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 3) 북마크 아이콘 -->
+        <ImageButton
+            android:id="@+id/btnBookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_bookmark_border"
+            android:contentDescription="북마크" />
+
+        <!-- 4) 댓글 보기 버튼 -->
+        <Button
+            android:id="@+id/btnViewComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="댓글 보기"
+            android:textSize="12sp"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <!-- ─── 두 번째 줄: 별점·코멘트 요약 + 평가하기 버튼 ─────────────────────────── -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/tvYear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <!-- 5) 별점·코멘트 요약 TextView -->
+        <TextView
+            android:id="@+id/tvRatingCommentSummary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="별점: -   (0명)"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" />
 
+        <!-- 6) 별점·코멘트 입력/보기 버튼 -->
+        <Button
+            android:id="@+id/btnRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="평가하기"
+            android:textSize="12sp" />
+    </LinearLayout>
 </LinearLayout>
