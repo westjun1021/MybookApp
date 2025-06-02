@@ -88,8 +88,7 @@
             android:layout_height="wrap_content"
             android:hint="새 비밀번호 확인"
             android:inputType="textPassword"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/btnChangePassword"
@@ -98,21 +97,14 @@
             android:text="비밀번호 변경"
             android:layout_marginBottom="24dp" />
 
-        <!-- 5) 로그아웃 버튼 (필요하다면 그대로 두세요) -->
+        <!-- 5) 홈으로 돌아가기 버튼 추가 -->
         <Button
-            android:id="@+id/btnLogout"
+            android:id="@+id/btnGoHome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="로그아웃"
+            android:text="홈으로 돌아가기"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp" />
-
-        <!-- 6) 로딩 표시 ProgressBar -->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_gravity="center" />
 
     </LinearLayout>
 </ScrollView>

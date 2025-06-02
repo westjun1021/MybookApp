@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity
             if (id == R.id.nav_my_page) {
                 startActivity(new Intent(MainActivity.this, MyPageActivity.class));
             } else if (id == R.id.nav_settings) {
-                Toast.makeText(MainActivity.this, "설정 화면으로 이동", Toast.LENGTH_SHORT).show();
+                // 기존 Toast → SettingsActivity 호출로 변경
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             } else if (id == R.id.nav_logout) {
                 mAuth.signOut();
                 prefs.edit().putBoolean(KEY_IS_LOGGED_IN, false).apply();

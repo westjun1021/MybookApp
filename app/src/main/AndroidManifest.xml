@@ -37,6 +37,10 @@
             android:name=".MyPageActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity"/>
+
     </application>
 
 </manifest>
