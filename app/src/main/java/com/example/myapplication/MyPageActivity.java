@@ -4,11 +4,11 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +24,7 @@ public class MyPageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
+    private TextView tvUserEmail;            // 추가: 이메일 표시용 TextView
     private EditText etNickname;
     private Button btnSaveNickname;
 
@@ -50,6 +51,7 @@ public class MyPageActivity extends AppCompatActivity {
         }
 
         // 2) 뷰 바인딩
+        tvUserEmail           = findViewById(R.id.tvUserEmail);          // 이메일 표시용 TextView
         etNickname            = findViewById(R.id.etNickname);
         btnSaveNickname       = findViewById(R.id.btnSaveNickname);
 
@@ -61,13 +63,21 @@ public class MyPageActivity extends AppCompatActivity {
         btnGoHome             = findViewById(R.id.btnGoHome);
         progressBar           = findViewById(R.id.progressBar);
 
-        // 3) 닉네임 초기값 세팅
+        // 3) 현재 로그인된 사용자 이메일을 TextView에 세팅
+        String email = currentUser.getEmail();
+        if (!TextUtils.isEmpty(email)) {
+            tvUserEmail.setText("이메일: " + email);
+        } else {
+            tvUserEmail.setText("이메일: 알 수 없음");
+        }
+
+        // 4) 닉네임 초기값 세팅
         String existingDisplayName = currentUser.getDisplayName();
         if (!TextUtils.isEmpty(existingDisplayName)) {
             etNickname.setText(existingDisplayName);
         }
 
-        // 4) 닉네임 저장 버튼 클릭 시
+        // 5) 닉네임 저장 버튼 클릭 시
         btnSaveNickname.setOnClickListener(v -> {
             String newNickname = etNickname.getText().toString().trim();
             if (TextUtils.isEmpty(newNickname)) {
@@ -77,7 +87,7 @@ public class MyPageActivity extends AppCompatActivity {
             updateNickname(newNickname);
         });
 
-        // 5) 비밀번호 변경 버튼 클릭 시
+        // 6) 비밀번호 변경 버튼 클릭 시
         btnChangePassword.setOnClickListener(v -> {
             String currentPw = etCurrentPassword.getText().toString().trim();
             String newPw     = etNewPassword.getText().toString().trim();
@@ -102,7 +112,7 @@ public class MyPageActivity extends AppCompatActivity {
             reauthenticateAndChangePassword(currentPw, newPw);
         });
 
-        // 6) 홈으로 돌아가기 버튼 클릭 시 → MainActivity로 이동
+        // 7) 홈으로 돌아가기 버튼 클릭 시 → MainActivity로 이동
         btnGoHome.setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, MainActivity.class);
             // 기존 MainActivity 스택을 모두 지우고 새로 띄우고 싶으면 아래 플래그 추가
