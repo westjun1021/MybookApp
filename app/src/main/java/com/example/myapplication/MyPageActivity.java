@@ -4,11 +4,11 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +24,6 @@ public class MyPageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
-    private TextView tvUserEmail;
     private EditText etNickname;
     private Button btnSaveNickname;
 
@@ -33,7 +32,7 @@ public class MyPageActivity extends AppCompatActivity {
     private EditText etNewPasswordConfirm;
     private Button btnChangePassword;
 
-    private Button btnLogout;
+    private Button btnGoHome;        // “홈으로 돌아가기” 버튼
     private ProgressBar progressBar;
 
     @Override
@@ -50,8 +49,7 @@ public class MyPageActivity extends AppCompatActivity {
             return;
         }
 
-        // 2) 뷰 바인딩 (XML의 ID와 반드시 일치해야 합니다)
-        tvUserEmail           = findViewById(R.id.tvUserEmail);
+        // 2) 뷰 바인딩
         etNickname            = findViewById(R.id.etNickname);
         btnSaveNickname       = findViewById(R.id.btnSaveNickname);
 
@@ -60,11 +58,10 @@ public class MyPageActivity extends AppCompatActivity {
         etNewPasswordConfirm  = findViewById(R.id.etNewPasswordConfirm);
         btnChangePassword     = findViewById(R.id.btnChangePassword);
 
-        btnLogout             = findViewById(R.id.btnLogout);
+        btnGoHome             = findViewById(R.id.btnGoHome);
         progressBar           = findViewById(R.id.progressBar);
 
-        // 3) 이메일과 닉네임 초기값 세팅
-        tvUserEmail.setText("이메일: " + currentUser.getEmail());
+        // 3) 닉네임 초기값 세팅
         String existingDisplayName = currentUser.getDisplayName();
         if (!TextUtils.isEmpty(existingDisplayName)) {
             etNickname.setText(existingDisplayName);
@@ -105,16 +102,12 @@ public class MyPageActivity extends AppCompatActivity {
             reauthenticateAndChangePassword(currentPw, newPw);
         });
 
-        // 6) 로그아웃 버튼 클릭 시
-        btnLogout.setOnClickListener(v -> {
-            mAuth.signOut();
-            // 로그인 상태 해제(SharedPreferences)
-            getSharedPreferences("prefs", MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("isLoggedIn", false)
-                    .apply();
-            Toast.makeText(MyPageActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MyPageActivity.this, LoginActivity.class));
+        // 6) 홈으로 돌아가기 버튼 클릭 시 → MainActivity로 이동
+        btnGoHome.setOnClickListener(v -> {
+            Intent intent = new Intent(MyPageActivity.this, MainActivity.class);
+            // 기존 MainActivity 스택을 모두 지우고 새로 띄우고 싶으면 아래 플래그 추가
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
             finish();
         });
     }
@@ -143,7 +136,7 @@ public class MyPageActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(MyPageActivity.this,
                                 "닉네임이 성공적으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                        // 변경된 닉네임을 메인 화면(네비게이션 헤더)에 반영하기 위해
+                        // 변경된 닉네임을 MainActivity 네비게이션 헤더에 반영하려면
                         setResult(RESULT_OK);
                         finish();
                     } else {

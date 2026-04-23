@@ -41,11 +41,11 @@ public class BookAdapter extends ListAdapter<Book, BookAdapter.VH> {
         void onViewCommentsClick(Book book);
     }
 
-    private final OnBookmarkClickListener    bookmarkListener;
-    private final OnRateClickListener        rateListener;
+    private final OnBookmarkClickListener     bookmarkListener;
+    private final OnRateClickListener         rateListener;
     private final OnViewCommentsClickListener viewCommentsListener;
-    private final List<Book>                 actualBookmarkList;
-    private final Set<String>                bookmarkedIsbns;
+    private final List<Book>                  actualBookmarkList;
+    private final Set<String>                 bookmarkedIsbns;
 
     public BookAdapter(
             OnBookmarkClickListener bookmarkListener,
@@ -59,6 +59,7 @@ public class BookAdapter extends ListAdapter<Book, BookAdapter.VH> {
         this.viewCommentsListener = viewCommentsListener;
         this.actualBookmarkList   = actualBookmarkList;
         this.bookmarkedIsbns      = new HashSet<>();
+        // 로컬에 저장된 bookmarkList를 기반으로 Set을 초기화
         for (Book b : actualBookmarkList) {
             String isbn = b.getIsbn();
             if (isbn != null && !isbn.isEmpty()) {
@@ -117,7 +118,7 @@ public class BookAdapter extends ListAdapter<Book, BookAdapter.VH> {
     ) {
         Book book = getItem(position);
 
-        // (1) 표지 · 제목 · 저자·연도 · 북마크 아이콘
+        // (1) 표지 · 제목 · 저자·연도
         holder.title.setText(book.getTitle());
         holder.authorYear.setText(book.getAuthor() + " | " + book.getYear());
         Glide.with(holder.cover.getContext())
@@ -127,9 +128,19 @@ public class BookAdapter extends ListAdapter<Book, BookAdapter.VH> {
                 .fallback(R.drawable.placeholder)
                 .into(holder.cover);
 
+        // (2) 북마크 아이콘 상태 반영
         String isbn = (book.getIsbn() != null) ? book.getIsbn() : "";
         boolean isBookmarked = bookmarkedIsbns.contains(isbn);
+        if (isBookmarked) {
+            holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_filled);
+        } else {
+            holder.btnBookmark.setImageResource(R.drawable.ic_bookmark_border);
+        }
 
+        // 클릭 시 MainActivity 의 onBookmarkClick(Book) 호출
+        holder.btnBookmark.setOnClickListener(v -> bookmarkListener.onBookmarkClick(book));
+
+        // (3) Firestore에서 평균 별점·평가자 수 가져와서 요약 표시
         if (!isbn.isEmpty()) {
             FirebaseFirestore.getInstance()
                     .collection("books")
@@ -154,17 +165,17 @@ public class BookAdapter extends ListAdapter<Book, BookAdapter.VH> {
                     .addOnFailureListener(e -> {
                         holder.tvRatingCommentSummary.setText("평균: -   (0명)");
                     });
-            } else {
-                holder.tvRatingCommentSummary.setText("평균: -   (0명)");
-            }
+        } else {
+            holder.tvRatingCommentSummary.setText("평균: -   (0명)");
+        }
 
-        // (3) 평가하기 버튼 클릭 리스너
+        // (4) 평가하기 버튼 클릭 리스너
         holder.btnRate.setOnClickListener(v -> rateListener.onRateClick(book));
 
-        // (4) 댓글 보기 버튼 클릭 리스너
+        // (5) 댓글 보기 버튼 클릭 리스너
         holder.btnViewComments.setOnClickListener(v -> viewCommentsListener.onViewCommentsClick(book));
 
-        // (5) 짝수/홀수 배경색 (선택)
+        // (6) 짝수/홀수 배경색 (선택사항)
         int colorResId = (position % 2 == 0)
                 ? R.color.row_even_background
                 : R.color.row_odd_background;
